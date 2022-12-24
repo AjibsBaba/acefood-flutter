@@ -15,12 +15,3 @@ between "AjibsBaba", "Acefood" or "Flutter"
 
 <img src="/screenshots/home.png" align="left"  width="200">
 <img src="/screenshots/model-info.png" align="right" width="200">
-
-# Permissions
-
-On both the android and ios version acefood requires the following permissions:
-
-- Network Access
-- Full Camera Access
-
-# License
