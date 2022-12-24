@@ -1,5 +1,6 @@
 import 'package:acefood/screens/home.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -15,11 +16,21 @@ class _LoginState extends State<LoginScreen> {
 
   void validateForm() {
     final FormState? form = _formKey.currentState;
-    String? email = _emailAddress.text;
-    String? password = _password.text;
+    String? userEmail = _emailAddress.text;
+    String? userPassword = _password.text;
+
+    Future<String?> loginUser(String email, String password) async {
+      try {
+        await FirebaseAuth.instance
+            .signInWithEmailAndPassword(email: email, password: password);
+        return null;
+      } on FirebaseAuthException catch (ex) {
+        return '${ex.code}: ${ex.message}';
+      }
+    }
 
     if (form!.validate()) {
-
+      loginUser(userEmail, userPassword);
     }
   }
 
@@ -57,7 +68,7 @@ class _LoginState extends State<LoginScreen> {
             ),
             Padding(
                 padding:
-                const EdgeInsets.only(left: 20.0, right: 20.0, top: 32.0),
+                    const EdgeInsets.only(left: 20.0, right: 20.0, top: 32.0),
                 child: Column(children: <Widget>[
                   Form(
                     key: _formKey,
@@ -72,7 +83,7 @@ class _LoginState extends State<LoginScreen> {
                                       width: 1, color: Colors.black)),
                               border: OutlineInputBorder(
                                   borderRadius:
-                                  BorderRadius.all(Radius.circular(4))),
+                                      BorderRadius.all(Radius.circular(4))),
                               hintText: 'Email Address',
                               fillColor: Colors.white,
                               focusColor: Colors.black),
@@ -97,10 +108,10 @@ class _LoginState extends State<LoginScreen> {
                           decoration: const InputDecoration(
                             enabledBorder: OutlineInputBorder(
                                 borderSide:
-                                BorderSide(width: 1, color: Colors.black)),
+                                    BorderSide(width: 1, color: Colors.black)),
                             border: OutlineInputBorder(
                                 borderRadius:
-                                BorderRadius.all(Radius.circular(4))),
+                                    BorderRadius.all(Radius.circular(4))),
                             hintText: 'Password',
                           ),
                           autovalidateMode: AutovalidateMode.onUserInteraction,

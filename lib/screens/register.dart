@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class RegistrationScreen extends StatefulWidget {
   const RegistrationScreen({super.key});
@@ -18,11 +19,21 @@ class _RegistrationState extends State<RegistrationScreen> {
 
   void validateForm() {
     final FormState? form = _formKey.currentState;
-    String? email = _emailAddress.text;
-    String? password = _pass.text;
+    String? userEmail = _emailAddress.text;
+    String? userPassword = _pass.text;
+
+    Future<String?> registerUser(String email, String password) async {
+      try {
+        await FirebaseAuth.instance
+            .createUserWithEmailAndPassword(email: email, password: password);
+        return null;
+      } on FirebaseAuthException catch (ex) {
+        return '${ex.code}: ${ex.message}';
+      }
+    }
 
     if (form!.validate()) {
-
+      registerUser(userEmail, userPassword);
     }
   }
 
@@ -61,7 +72,7 @@ class _RegistrationState extends State<RegistrationScreen> {
             ),
             Padding(
                 padding:
-                const EdgeInsets.only(left: 20.0, right: 20.0, top: 32.0),
+                    const EdgeInsets.only(left: 20.0, right: 20.0, top: 32.0),
                 child: Column(children: <Widget>[
                   ListView(
                     shrinkWrap: true,
@@ -80,12 +91,12 @@ class _RegistrationState extends State<RegistrationScreen> {
                                           width: 1, color: Colors.black)),
                                   border: OutlineInputBorder(
                                       borderRadius:
-                                      BorderRadius.all(Radius.circular(4))),
+                                          BorderRadius.all(Radius.circular(4))),
                                   hintText: 'Email Address',
                                   fillColor: Colors.white,
                                   focusColor: Colors.black),
                               autovalidateMode:
-                              AutovalidateMode.onUserInteraction,
+                                  AutovalidateMode.onUserInteraction,
                               validator: (String? value) {
                                 if (value == null || value.isEmpty) {
                                   return 'Field must not be empty';
@@ -107,13 +118,13 @@ class _RegistrationState extends State<RegistrationScreen> {
                                           width: 1, color: Colors.black)),
                                   border: OutlineInputBorder(
                                       borderRadius:
-                                      BorderRadius.all(Radius.circular(4))),
+                                          BorderRadius.all(Radius.circular(4))),
                                   hintText: 'Firstname',
                                   fillColor: Colors.white,
                                   focusColor: Colors.black),
                               onSaved: (String? value) {},
                               autovalidateMode:
-                              AutovalidateMode.onUserInteraction,
+                                  AutovalidateMode.onUserInteraction,
                               validator: (String? value) {
                                 if (value == null || value.isEmpty) {
                                   return 'Field must not be empty';
@@ -134,13 +145,13 @@ class _RegistrationState extends State<RegistrationScreen> {
                                           width: 1, color: Colors.black)),
                                   border: OutlineInputBorder(
                                       borderRadius:
-                                      BorderRadius.all(Radius.circular(4))),
+                                          BorderRadius.all(Radius.circular(4))),
                                   hintText: 'Lastname',
                                   fillColor: Colors.white,
                                   focusColor: Colors.black),
                               onSaved: (String? value) {},
                               autovalidateMode:
-                              AutovalidateMode.onUserInteraction,
+                                  AutovalidateMode.onUserInteraction,
                               validator: (String? value) {
                                 if (value == null || value.isEmpty) {
                                   return 'Field must not be empty';
@@ -162,11 +173,11 @@ class _RegistrationState extends State<RegistrationScreen> {
                                         width: 1, color: Colors.black)),
                                 border: OutlineInputBorder(
                                     borderRadius:
-                                    BorderRadius.all(Radius.circular(4))),
+                                        BorderRadius.all(Radius.circular(4))),
                                 hintText: 'Password',
                               ),
                               autovalidateMode:
-                              AutovalidateMode.onUserInteraction,
+                                  AutovalidateMode.onUserInteraction,
                               validator: (String? value) {
                                 if (value == null || value.isEmpty) {
                                   return 'Field must not be empty';
@@ -188,11 +199,11 @@ class _RegistrationState extends State<RegistrationScreen> {
                                         width: 1, color: Colors.black)),
                                 border: OutlineInputBorder(
                                     borderRadius:
-                                    BorderRadius.all(Radius.circular(4))),
+                                        BorderRadius.all(Radius.circular(4))),
                                 hintText: 'Confirm Password',
                               ),
                               autovalidateMode:
-                              AutovalidateMode.onUserInteraction,
+                                  AutovalidateMode.onUserInteraction,
                               validator: (String? value) {
                                 if (value == null || value.isEmpty) {
                                   return 'Field must not be empty';
@@ -218,7 +229,7 @@ class _RegistrationState extends State<RegistrationScreen> {
                                       textColor: Colors.white,
                                       shape: RoundedRectangleBorder(
                                           borderRadius:
-                                          BorderRadius.circular(24)),
+                                              BorderRadius.circular(24)),
                                       child: const Text('Register',
                                           style: TextStyle(
                                               fontSize: 14,
@@ -226,7 +237,7 @@ class _RegistrationState extends State<RegistrationScreen> {
                                     ),
                                     Row(
                                       mainAxisAlignment:
-                                      MainAxisAlignment.center,
+                                          MainAxisAlignment.center,
                                       children: <Widget>[
                                         const Text('Already have an account?'),
                                         TextButton(
@@ -236,7 +247,7 @@ class _RegistrationState extends State<RegistrationScreen> {
                                           },
                                           child: const Text('Login',
                                               style:
-                                              TextStyle(color: Colors.red)),
+                                                  TextStyle(color: Colors.red)),
                                         )
                                       ],
                                     )

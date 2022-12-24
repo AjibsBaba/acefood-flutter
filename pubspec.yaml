@@ -27,6 +27,7 @@ dependencies:
   camera: ^0.10.1
   permission_handler: ^10.2.0
   firebase_core: ^2.4.0
+  firebase_auth: ^4.2.3
 
 dev_dependencies:
   flutter_test:

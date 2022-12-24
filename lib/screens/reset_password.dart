@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class PasswordResetScreen extends StatefulWidget {
@@ -14,12 +15,21 @@ class _PasswordResetState extends State<PasswordResetScreen> {
 
   void validateForm() {
     final FormState? form = _formKey.currentState;
-    String? email = _emailAddress.text;
+    String? userEmail = _emailAddress.text;
     var status = const SnackBar(
         content: Text('A password reset email has been sent successfully'));
 
-    if (form!.validate()) {
+    Future<String?> resetPassword(String email) async {
+      try {
+        await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
+        return null;
+      } on FirebaseAuthException catch (ex) {
+        return '${ex.code}: ${ex.message}';
+      }
+    }
 
+    if (form!.validate()) {
+      resetPassword(userEmail);
     }
   }
 
@@ -69,10 +79,10 @@ class _PasswordResetState extends State<PasswordResetScreen> {
                         decoration: const InputDecoration(
                             enabledBorder: OutlineInputBorder(
                                 borderSide:
-                                BorderSide(width: 1, color: Colors.black)),
+                                    BorderSide(width: 1, color: Colors.black)),
                             border: OutlineInputBorder(
                                 borderRadius:
-                                BorderRadius.all(Radius.circular(4))),
+                                    BorderRadius.all(Radius.circular(4))),
                             hintText: 'Email Address',
                             focusColor: Colors.black),
                         onSaved: (String? value) {},
