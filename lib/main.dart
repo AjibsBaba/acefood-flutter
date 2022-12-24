@@ -2,6 +2,7 @@ import 'package:acefood/screens/account_info.dart';
 import 'package:acefood/screens/app_info.dart';
 import 'package:acefood/screens/model_info.dart';
 import 'package:acefood/screens/profile.dart';
+import 'package:acefood/screens/scan.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:acefood/screens/home.dart';
@@ -40,7 +41,8 @@ class MyApp extends StatelessWidget {
           '/profile': (context) => const ProfileHomeScreen(),
           '/account': (context) => const AccountInfo(),
           '/model': (context) => const ModelInfo(),
-          '/info': (context) => const AppInfo()
+          '/info': (context) => const AppInfo(),
+          '/scan': (context) => const DiseaseScan()
         });
   }
 }
