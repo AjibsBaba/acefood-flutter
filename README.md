@@ -13,9 +13,9 @@ between "AjibsBaba", "Acefood" or "Flutter"
 
 # Screenshots
 
-![Home Screen]<img src="/screenshots/home.png" align="left" width="200">
-![Profile Screen]<img src="/screenshots/profile.png" align="left" width="200">
-![Model Information]<img src="/screenshots/model-info.png" align="left" width="200">
+<img src="/screenshots/home.png"  width="200">
+<img src="/screenshots/profile.png" width="200">
+<img src="/screenshots/model-info.png" width="200">
 
 # Permissions
 
