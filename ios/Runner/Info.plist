@@ -47,5 +47,9 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<key>NSCameraUsageDescription</key>
+    <string>Need Camera Access</string>
+    <key>NSMicrophoneUsageDescription</key>
+    <string>Need Microphone Access</string>
 </dict>
 </plist>
