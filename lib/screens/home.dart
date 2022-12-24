@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -31,7 +32,9 @@ class _HomeScreenState extends State<HomeScreen> {
                         Icons.close,
                         color: Colors.black,
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
                     ),
                     title: Image.asset('assets/images/AcefoodLogo.png'),
                   ),
@@ -89,9 +92,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                     ),
                                   ]).toList()),
                         ),
-                        const TextButton(
-                            onPressed: null,
-                            child: Text(
+                        TextButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            child: const Text(
                               'Close',
                               style:
                                   TextStyle(color: Colors.black, fontSize: 14),
@@ -102,6 +107,17 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ));
         });
+  }
+
+  Future _checkCameraPermission() async {
+    var status = await Permission.camera.status;
+    if (status.isGranted) {
+      PermissionStatus permissionStatus = await Permission.camera.request();
+      Navigator.of(context).pushReplacementNamed('/scan');
+    }
+    if (!status.isDenied) {
+      print('Camera permission is denied');
+    }
   }
 
   @override
@@ -140,7 +156,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 fontSize: 36, fontWeight: FontWeight.w900),
                           ),
                           Text(
-                            'samuela@mail.com',
+                            'samuelajibade22@gmail.com',
                             style: TextStyle(
                                 fontSize: 12, fontWeight: FontWeight.normal),
                           ),
@@ -148,7 +164,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                       const CircleAvatar(
                         backgroundColor: Colors.red,
-                        minRadius: 60,
+                        minRadius: 48,
                       )
                     ],
                   ),
@@ -156,7 +172,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     height: 27,
                   ),
                   MaterialButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      _checkCameraPermission();
+                    },
                     minWidth: double.infinity,
                     height: 70,
                     color: Colors.red[800],
@@ -208,7 +226,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         height: 200,
                         color: Colors.white,
                         textColor: Colors.black,
-                        elevation: 1,
+                        elevation: 0.5,
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(4)),
                         child: const Text(
