@@ -1,5 +1,5 @@
 name: acefood
-description: An mobile application that detects up to 10 classes of diseases in tomato plants using Deep Learning learning algorithms. The application makes use of a smartphone camera to run inference on a tensorflow lite(Tflite) model in real-time.
+description: A mobile application that detects up to 10 classes of diseases in tomato plants using Deep Learning learning algorithms. The application makes use of a smartphone camera to run inference on a tensorflow lite(Tflite) model in real-time.
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
