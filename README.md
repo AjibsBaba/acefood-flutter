@@ -11,7 +11,15 @@ Detect up to 10 classes of diseases in tomato plants with your Smartphone Camera
 X Flutter just shows that the application was developed with Flutter and does not necessarily mean a collaboration
 between "AjibsBaba", "Acefood" or "Flutter"
 
-# Installation
+# Screenshots
 
-If you're new to Flutter the first thing you'll need is to follow
-the [Setup instructions](https://flutter.dev/docs/get-started/install).
+![Home Screen]<img src="/screenshots/home.png" align="left" width="200">
+![Profile Screen]<img src="/screenshots/profile.png" align="left" width="200">
+![Model Information]<img src="/screenshots/model-info.png" align="left" width="200">
+
+# Permissions
+
+On both the android and ios version acefood requires the following permissions:
+
+- Network Access
+- Full Camera Access
