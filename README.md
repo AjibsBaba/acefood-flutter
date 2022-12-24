@@ -14,4 +14,4 @@ between "AjibsBaba", "Acefood" or "Flutter"
 # Screenshots
 
 <img src="/screenshots/home.png" align="left"  width="200">
-<img src="/screenshots/model-info.png" align="right" width="200">
+<img src="/screenshots/model-info.png" align="left" width="200">
