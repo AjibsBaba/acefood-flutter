@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:camera/camera.dart';
 
 class DiseaseScan extends StatefulWidget {
   const DiseaseScan({Key? key}) : super(key: key);
+  static const routeName = '/scan';
 
   @override
   State<DiseaseScan> createState() => _DiseaseScanState();

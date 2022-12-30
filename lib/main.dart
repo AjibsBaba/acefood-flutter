@@ -1,11 +1,6 @@
-import 'package:acefood/screens/account_info.dart';
-import 'package:acefood/screens/app_info.dart';
-import 'package:acefood/screens/model_info.dart';
-import 'package:acefood/screens/profile.dart';
-import 'package:acefood/screens/scan.dart';
+import 'package:acefood/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:acefood/screens/home.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -31,19 +26,14 @@ class MyApp extends StatelessWidget {
             primaryColor: Colors.red,
             primaryColorDark: Colors.red[800],
             fontFamily: 'Axiforma',
+            appBarTheme:
+                const AppBarTheme(elevation: 0, backgroundColor: Colors.white),
             textButtonTheme: TextButtonThemeData(
                 style: ButtonStyle(
               foregroundColor:
                   MaterialStateColor.resolveWith((states) => Colors.black),
             )),
             useMaterial3: true),
-        routes: {
-          '/': (context) => HomeScreen(),
-          '/profile': (context) => const ProfileHomeScreen(),
-          '/account': (context) => const AccountInfo(),
-          '/model': (context) => const ModelInfo(),
-          '/info': (context) => const AppInfo(),
-          '/scan': (context) => const DiseaseScan()
-        });
+        routes: Routes.routes);
   }
 }

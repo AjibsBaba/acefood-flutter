@@ -1,7 +1,10 @@
+import 'package:acefood/widgets/copyright.dart';
 import 'package:flutter/material.dart';
 
 class ModelInfo extends StatelessWidget {
   const ModelInfo({Key? key}) : super(key: key);
+
+  static const routeName = '/model';
 
   @override
   Widget build(BuildContext context) {
@@ -13,12 +16,6 @@ class ModelInfo extends StatelessWidget {
           title: const Text(
             'Model Info',
             style: TextStyle(fontWeight: FontWeight.w800),
-          ),
-          leading: IconButton(
-            icon: const Icon(Icons.arrow_back),
-            onPressed: () {
-              Navigator.of(context).pushReplacementNamed('/profile');
-            },
           ),
           centerTitle: false,
         ),
@@ -147,27 +144,7 @@ class ModelInfo extends StatelessWidget {
                   ),
                 ],
               ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(top: 72),
-                    child: Column(
-                      children: const <Widget>[
-                        Text(
-                          'built by',
-                          style: TextStyle(fontSize: 12),
-                        ),
-                        Text(
-                          'AjibsBaba',
-                          style: TextStyle(
-                              fontSize: 14, fontWeight: FontWeight.w800),
-                        )
-                      ],
-                    ),
-                  )
-                ],
-              )
+              Copyright()
             ],
           ),
         ));

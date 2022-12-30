@@ -1,15 +1,23 @@
+import 'package:acefood/screens/account_info.dart';
+import 'package:acefood/screens/app_info.dart';
+import 'package:acefood/screens/home.dart';
+import 'package:acefood/screens/model_info.dart';
+import 'package:acefood/widgets/copyright.dart';
+import 'package:acefood/widgets/profile_section.dart';
 import 'package:flutter/material.dart';
 
 class ProfileHomeScreen extends StatelessWidget {
   const ProfileHomeScreen({super.key});
+
+  static const routeName = '/profile';
+
+  void showConfirmationModal(BuildContext ctx) {}
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
         title: const Text(
           'Profile',
           style: TextStyle(fontWeight: FontWeight.w800),
@@ -28,7 +36,8 @@ class ProfileHomeScreen extends StatelessWidget {
                     Column(
                       children: const [
                         CircleAvatar(
-                          backgroundColor: Colors.black,
+                          backgroundImage: NetworkImage(
+                              'https://images.pexels.com/photos/11987710/pexels-photo-11987710.jpeg?auto=compress&cs=tinysrgb&w=800&lazy=load'),
                         )
                       ],
                     ),
@@ -61,169 +70,28 @@ class ProfileHomeScreen extends StatelessWidget {
                   const SizedBox(
                     height: 14,
                   ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      TextButton(
-                          onPressed: () {
-                            Navigator.of(context)
-                                .pushReplacementNamed('/account');
-                          },
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: const [
-                              Text(
-                                'Account Info',
-                                style: TextStyle(
-                                    fontSize: 16, fontWeight: FontWeight.w800),
-                              ),
-                              Text(
-                                'Your Personal Information',
-                                style: TextStyle(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.normal),
-                              ),
-                            ],
-                          )),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 4,
-                  ),
-                  Column(
-                    children: [
-                      TextButton(
-                          onPressed: () {
-                            Navigator.of(context)
-                                .pushReplacementNamed('/model');
-                          },
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: const [
-                              Text(
-                                'Model Info',
-                                style: TextStyle(
-                                    fontSize: 16, fontWeight: FontWeight.w800),
-                              ),
-                              Text(
-                                'Model Info, Accuracy, Type',
-                                style: TextStyle(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.normal),
-                              ),
-                            ],
-                          )),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 4,
-                  ),
-                  Column(
-                    children: [
-                      TextButton(
-                          onPressed: () {
-                            Navigator.of(context).pushReplacementNamed('/info');
-                          },
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: const [
-                              Text(
-                                'App Info',
-                                style: TextStyle(
-                                    fontSize: 16, fontWeight: FontWeight.w800),
-                              ),
-                              Text(
-                                'Developer Information & App Build',
-                                style: TextStyle(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.normal),
-                              ),
-                            ],
-                          )),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 4,
-                  ),
-                  Column(
-                    children: [
-                      TextButton(
-                          onPressed: () {},
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: const [
-                              Text(
-                                'Suggestions',
-                                style: TextStyle(
-                                    fontSize: 16, fontWeight: FontWeight.w800),
-                              ),
-                              Text(
-                                'Suggest Features, Improve app',
-                                style: TextStyle(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.normal),
-                              ),
-                            ],
-                          )),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 4,
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      TextButton(
-                          onPressed: () {},
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: const [
-                              Text(
-                                'Delete Account',
-                                style: TextStyle(
-                                    fontSize: 16, fontWeight: FontWeight.w800),
-                              ),
-                              Text(
-                                'Delete Account Information',
-                                style: TextStyle(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.normal),
-                              ),
-                            ],
-                          )),
-                    ],
-                  ),
+                  ProfileSection('Account Info', 'Your Personal Information',
+                      AccountInfo.routeName),
+                  ProfileSection('Model Info', 'Model Info, Accuracy, Type',
+                      ModelInfo.routeName),
+                  ProfileSection('App Info',
+                      'Developer Information & App Build', AppInfo.routeName),
+                  ProfileSection(
+                      'Suggestions', 'Suggest Features, Improve app', ''),
+                  ProfileSection(
+                      'Delete Account', 'Delete Account Information', ''),
                 ],
               )),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(top: 72),
-                child: Column(
-                  children: const <Widget>[
-                    Text(
-                      'built by',
-                      style: TextStyle(fontSize: 12),
-                    ),
-                    Text(
-                      'AjibsBaba',
-                      style:
-                          TextStyle(fontSize: 14, fontWeight: FontWeight.w800),
-                    )
-                  ],
-                ),
-              )
-            ],
-          )
+          const Copyright()
         ],
       ),
       bottomNavigationBar: NavigationBar(
         onDestinationSelected: (int index) {
           if (index == 0) {
-            Navigator.of(context).pushReplacementNamed('/');
+            Navigator.of(context).pushReplacementNamed(HomeScreen.routeName);
           } else {
-            Navigator.of(context).pushReplacementNamed('/profile');
+            Navigator.of(context)
+                .pushReplacementNamed(ProfileHomeScreen.routeName);
           }
         },
         selectedIndex: 1,
