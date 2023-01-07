@@ -1,7 +1,7 @@
 import 'package:acefood/screens/profile.dart';
 import 'package:acefood/widgets/disease_button.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:permission_handler/permission_handler.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -10,28 +10,128 @@ class HomeScreen extends StatefulWidget {
   static const routeName = '/';
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends State<HomeScreen>
+    with AutomaticKeepAliveClientMixin {
   @override
   void initState() {
     super.initState();
   }
 
-  void _showDiseaseModal(BuildContext ctx) {
+  @override
+  bool get wantKeepAlive => true;
+
+  void _showDiseaseeModal(BuildContext ctx) {
     showModalBottomSheet(
         context: ctx,
-        isScrollControlled: true,
+        backgroundColor: Colors.white,
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+                topRight: Radius.circular(24), topLeft: Radius.circular(24))),
         builder: (_) {
-          return GestureDetector(
-              onTap: () {},
-              behavior: HitTestBehavior.opaque,
-              child: SizedBox(
-                height: MediaQuery.of(context).size.height * 0.75,
-                child: Scaffold(
+          return SafeArea(
+              child: Padding(
+            padding: const EdgeInsets.only(left: 16.0, right: 16.0, top: 12.0),
+            child: Wrap(
+              children: [
+                AppBar(
                   backgroundColor: Colors.white,
-                  appBar: AppBar(
-                    backgroundColor: Colors.white,
+                  elevation: 0,
+                  centerTitle: true,
+                  leading: IconButton(
+                    icon: const Icon(
+                      Icons.close,
+                      color: Colors.black,
+                    ),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                  ),
+                  title: Image.asset('assets/images/AcefoodLogo.png'),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 12.0, bottom: 12.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      const Text(
+                        'Tomato Disease Classes',
+                        style: TextStyle(
+                            fontSize: 24, fontWeight: FontWeight.w900),
+                      ),
+                      const Text(
+                        'Types of tomato diseases that can be detected with this app',
+                        style: TextStyle(
+                            fontSize: 12, fontWeight: FontWeight.normal),
+                      ),
+                      const SizedBox(
+                        height: 32,
+                      ),
+                      SizedBox(
+                        height: 450,
+                        child: ListView(
+                            children: ListTile.divideTiles(
+                                context: context,
+                                color: Colors.grey[200],
+                                tiles: [
+                              const ListTile(
+                                title: Text('Mosaic Virus'),
+                              ),
+                              const ListTile(
+                                title: Text('Early Blight'),
+                              ),
+                              const ListTile(
+                                title: Text('Septoria Leaf Spot'),
+                              ),
+                              const ListTile(
+                                title: Text('Bacterial Spot'),
+                              ),
+                              const ListTile(
+                                title: Text('Target Spot'),
+                              ),
+                              const ListTile(
+                                title: Text('Spider Mites'),
+                              ),
+                              const ListTile(
+                                title: Text('Yellow Leaf Curl Virus'),
+                              ),
+                              const ListTile(
+                                title: Text('Leaf Mold'),
+                              ),
+                            ]).toList()),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ));
+        });
+  }
+
+  void _showResultModal(BuildContext bct) {
+    showModalBottomSheet(
+        enableDrag: true,
+        backgroundColor: Colors.white,
+        context: bct,
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+                topRight: Radius.circular(24), topLeft: Radius.circular(24))),
+        builder: (_) {
+          return SafeArea(
+            child: Padding(
+              padding:
+                  const EdgeInsets.only(left: 16.0, right: 16.0, top: 12.0),
+              child: Wrap(
+                children: [
+                  AppBar(
                     elevation: 0,
                     centerTitle: true,
+                    title: const Text(
+                      'Detection Results',
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+                    ),
                     leading: IconButton(
                       icon: const Icon(
                         Icons.close,
@@ -41,108 +141,10 @@ class _HomeScreenState extends State<HomeScreen> {
                         Navigator.pop(context);
                       },
                     ),
-                    title: Image.asset('assets/images/AcefoodLogo.png'),
                   ),
-                  body: Padding(
-                    padding: const EdgeInsets.only(
-                        left: 16.0, right: 16.0, top: 24.0),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 12.0, bottom: 12.0),
                     child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        const Text(
-                          'Tomato Disease Classes',
-                          style: TextStyle(
-                              fontSize: 24, fontWeight: FontWeight.w900),
-                        ),
-                        const Text(
-                          'Types of tomato diseases that can be detected with this app',
-                          style: TextStyle(
-                              fontSize: 12, fontWeight: FontWeight.normal),
-                        ),
-                        const SizedBox(
-                          height: 32,
-                        ),
-                        SizedBox(
-                          height: 380,
-                          child: ListView(
-                              shrinkWrap: false,
-                              children: ListTile.divideTiles(
-                                  context: context,
-                                  color: Colors.grey[200],
-                                  tiles: [
-                                    const ListTile(
-                                      title: Text('Mosaic Virus'),
-                                    ),
-                                    const ListTile(
-                                      title: Text('Early Blight'),
-                                    ),
-                                    const ListTile(
-                                      title: Text('Septoria Leaf Spot'),
-                                    ),
-                                    const ListTile(
-                                      title: Text('Bacterial Spot'),
-                                    ),
-                                    const ListTile(
-                                      title: Text('Target Spot'),
-                                    ),
-                                    const ListTile(
-                                      title: Text('Spider Mites'),
-                                    ),
-                                    const ListTile(
-                                      title: Text('Yellow Leaf Curl Virus'),
-                                    ),
-                                    const ListTile(
-                                      title: Text('Leaf Mold'),
-                                    ),
-                                  ]).toList()),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ));
-        });
-  }
-
-  void _showResultModal(BuildContext bct) {
-    showModalBottomSheet(
-        context: bct,
-        builder: (_) {
-          return GestureDetector(
-            onTap: () {},
-            behavior: HitTestBehavior.opaque,
-            child: Scaffold(
-              backgroundColor: Colors.white,
-              appBar: AppBar(
-                backgroundColor: Colors.white,
-                elevation: 0,
-                centerTitle: true,
-                title: const Text(
-                  'Detection Results',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
-                ),
-                leading: IconButton(
-                  icon: const Icon(
-                    Icons.close,
-                    color: Colors.black,
-                  ),
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                ),
-              ),
-              body: SizedBox(
-                  child: Padding(
-                padding: const EdgeInsets.only(
-                  left: 16.0,
-                  right: 16.0,
-                  top: 24.0,
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Column(
                       children: [
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -200,32 +202,22 @@ class _HomeScreenState extends State<HomeScreen> {
                         )
                       ],
                     ),
-                  ],
-                ),
-              )),
+                  ),
+                ],
+              ),
             ),
           );
         });
   }
 
-  Future _checkCameraPermission() async {
-    var status = await Permission.camera.status;
-    if (status.isGranted) {
-      PermissionStatus permissionStatus = await Permission.camera.request();
-      Navigator.of(context).pushReplacementNamed('/scan');
-    }
-    if (!status.isDenied) {
-      print('Camera permission is denied');
-    }
-  }
+  Future _checkCameraPermission() async {}
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
       backgroundColor: Colors.grey[100],
       appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
         title: Image.asset('assets/images/Acefood.png'),
         centerTitle: false,
       ),
@@ -243,20 +235,20 @@ class _HomeScreenState extends State<HomeScreen> {
                     children: <Widget>[
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: const <Widget>[
-                          Text(
+                        children: <Widget>[
+                          const Text(
                             'Hello',
                             style: TextStyle(
                                 fontSize: 36, fontWeight: FontWeight.w900),
                           ),
-                          Text(
-                            'Samuel',
+                          const Text(
+                            'Farmer',
                             style: TextStyle(
                                 fontSize: 36, fontWeight: FontWeight.w900),
                           ),
                           Text(
-                            'samuelajibade22@gmail.com',
-                            style: TextStyle(
+                            '${FirebaseAuth.instance.currentUser?.email}',
+                            style: const TextStyle(
                                 fontSize: 12, fontWeight: FontWeight.normal),
                           ),
                         ],
@@ -273,7 +265,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   MaterialButton(
                     onPressed: () {
-                      _showResultModal(context);
+                      _checkCameraPermission();
                     },
                     minWidth: double.infinity,
                     height: 70,
@@ -322,7 +314,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     children: <Widget>[
                       MaterialButton(
                         onPressed: () {
-                          _showDiseaseModal(context);
+                          _showDiseaseeModal(context);
                         },
                         minWidth: double.infinity,
                         height: 200,
@@ -365,7 +357,6 @@ class _HomeScreenState extends State<HomeScreen> {
       bottomNavigationBar: NavigationBar(
         onDestinationSelected: (int index) {
           if (index == 0) {
-            Navigator.of(context).pushReplacementNamed(HomeScreen.routeName);
           } else {
             Navigator.of(context)
                 .pushReplacementNamed(ProfileHomeScreen.routeName);

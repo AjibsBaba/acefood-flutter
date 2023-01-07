@@ -1,8 +1,12 @@
-import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+
+import 'login.dart';
 
 class RegistrationScreen extends StatefulWidget {
   const RegistrationScreen({super.key});
+
+  static const routeName = '/register';
 
   @override
   _RegistrationState createState() => _RegistrationState();
@@ -21,14 +25,30 @@ class _RegistrationState extends State<RegistrationScreen> {
     final FormState? form = _formKey.currentState;
     String? userEmail = _emailAddress.text;
     String? userPassword = _pass.text;
+    String? userFirstName = _firstName.text;
+    String? userLastName = _lastName.text;
 
     Future<String?> registerUser(String email, String password) async {
       try {
         await FirebaseAuth.instance
             .createUserWithEmailAndPassword(email: email, password: password);
-        return null;
+        FirebaseAuth.instance.currentUser
+            ?.updateDisplayName('$userFirstName $userLastName');
       } on FirebaseAuthException catch (ex) {
-        return '${ex.code}: ${ex.message}';
+        showDialog(
+            context: context,
+            builder: (context) {
+              return AlertDialog(
+                title: const Text('Error'),
+                content: Text('${ex.code}: ${ex.message}'),
+                actions: [
+                  TextButton(
+                    child: Text('Ok'),
+                    onPressed: () => Navigator.of(context).pop(),
+                  ),
+                ],
+              );
+            });
       }
     }
 
@@ -43,15 +63,6 @@ class _RegistrationState extends State<RegistrationScreen> {
         resizeToAvoidBottomInset: false,
         backgroundColor: Colors.white,
         appBar: AppBar(
-          backgroundColor: Colors.white,
-          elevation: 0,
-          leading: IconButton(
-            icon: const Icon(
-              Icons.arrow_back,
-              color: Colors.black,
-            ),
-            onPressed: () {},
-          ),
           title: Image.asset('assets/images/AcefoodLogo.png'),
           centerTitle: true,
         ),
@@ -92,8 +103,11 @@ class _RegistrationState extends State<RegistrationScreen> {
                                   border: OutlineInputBorder(
                                       borderRadius:
                                           BorderRadius.all(Radius.circular(4))),
-                                  hintText: 'Email Address',
                                   fillColor: Colors.white,
+                                  labelText: 'Email Address',
+                                  floatingLabelBehavior:
+                                      FloatingLabelBehavior.always,
+                                  labelStyle: TextStyle(color: Colors.black),
                                   focusColor: Colors.black),
                               autovalidateMode:
                                   AutovalidateMode.onUserInteraction,
@@ -119,7 +133,10 @@ class _RegistrationState extends State<RegistrationScreen> {
                                   border: OutlineInputBorder(
                                       borderRadius:
                                           BorderRadius.all(Radius.circular(4))),
-                                  hintText: 'Firstname',
+                                  labelText: 'Firstname',
+                                  floatingLabelBehavior:
+                                      FloatingLabelBehavior.always,
+                                  labelStyle: TextStyle(color: Colors.black),
                                   fillColor: Colors.white,
                                   focusColor: Colors.black),
                               onSaved: (String? value) {},
@@ -146,7 +163,10 @@ class _RegistrationState extends State<RegistrationScreen> {
                                   border: OutlineInputBorder(
                                       borderRadius:
                                           BorderRadius.all(Radius.circular(4))),
-                                  hintText: 'Lastname',
+                                  labelText: 'Lastname',
+                                  floatingLabelBehavior:
+                                      FloatingLabelBehavior.always,
+                                  labelStyle: TextStyle(color: Colors.black),
                                   fillColor: Colors.white,
                                   focusColor: Colors.black),
                               onSaved: (String? value) {},
@@ -174,7 +194,10 @@ class _RegistrationState extends State<RegistrationScreen> {
                                 border: OutlineInputBorder(
                                     borderRadius:
                                         BorderRadius.all(Radius.circular(4))),
-                                hintText: 'Password',
+                                labelText: 'Password',
+                                floatingLabelBehavior:
+                                    FloatingLabelBehavior.always,
+                                labelStyle: TextStyle(color: Colors.black),
                               ),
                               autovalidateMode:
                                   AutovalidateMode.onUserInteraction,
@@ -200,7 +223,10 @@ class _RegistrationState extends State<RegistrationScreen> {
                                 border: OutlineInputBorder(
                                     borderRadius:
                                         BorderRadius.all(Radius.circular(4))),
-                                hintText: 'Confirm Password',
+                                labelText: 'Confirm Password',
+                                floatingLabelBehavior:
+                                    FloatingLabelBehavior.always,
+                                labelStyle: TextStyle(color: Colors.black),
                               ),
                               autovalidateMode:
                                   AutovalidateMode.onUserInteraction,
@@ -209,7 +235,7 @@ class _RegistrationState extends State<RegistrationScreen> {
                                   return 'Field must not be empty';
                                 }
                                 if (value != _pass.text) {
-                                  return 'Enter Password again';
+                                  return 'Passwords don\'t match';
                                 }
                                 return null;
                               },
@@ -243,7 +269,8 @@ class _RegistrationState extends State<RegistrationScreen> {
                                         TextButton(
                                           onPressed: () {
                                             Navigator.of(context)
-                                                .pushReplacementNamed('/login');
+                                                .pushReplacementNamed(
+                                                    LoginScreen.routeName);
                                           },
                                           child: const Text('Login',
                                               style:

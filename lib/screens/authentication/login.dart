@@ -1,9 +1,17 @@
+import 'package:acefood/screens/authentication/reset_password.dart';
 import 'package:acefood/screens/home.dart';
-import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../service/user_notifier.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
+
+  static const routeName = '/login';
 
   @override
   _LoginState createState() => _LoginState();
@@ -14,18 +22,44 @@ class _LoginState extends State<LoginScreen> {
   final TextEditingController _emailAddress = TextEditingController();
   final TextEditingController _password = TextEditingController();
 
-  void validateForm() {
+  void validateForm(BuildContext context) {
     final FormState? form = _formKey.currentState;
     String? userEmail = _emailAddress.text;
     String? userPassword = _password.text;
 
     Future<String?> loginUser(String email, String password) async {
+      final userNotifier = Provider.of<UserNotifier>(context, listen: false);
       try {
         await FirebaseAuth.instance
             .signInWithEmailAndPassword(email: email, password: password);
-        return null;
+        User? user = FirebaseAuth.instance.currentUser;
+        userNotifier.login(user);
+        if (kDebugMode) {
+          print(userNotifier.user);
+        }
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        await prefs.setBool('isLoggedIn', true);
+        Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(
+              builder: (context) => HomeScreen(),
+            ),
+            (route) => false);
       } on FirebaseAuthException catch (ex) {
-        return '${ex.code}: ${ex.message}';
+        showDialog(
+            context: context,
+            builder: (context) {
+              return AlertDialog(
+                title: const Text('Error'),
+                content: Text('${ex.code}: ${ex.message}'),
+                actions: [
+                  TextButton(
+                    child: const Text('Ok'),
+                    onPressed: () => Navigator.of(context).pop(),
+                  ),
+                ],
+              );
+            });
       }
     }
 
@@ -39,15 +73,6 @@ class _LoginState extends State<LoginScreen> {
     return Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
-          backgroundColor: Colors.white,
-          elevation: 0,
-          leading: IconButton(
-            icon: const Icon(
-              Icons.arrow_back,
-              color: Colors.black,
-            ),
-            onPressed: () {},
-          ),
           title: Image.asset('assets/images/AcefoodLogo.png'),
           centerTitle: true,
         ),
@@ -84,7 +109,10 @@ class _LoginState extends State<LoginScreen> {
                               border: OutlineInputBorder(
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(4))),
-                              hintText: 'Email Address',
+                              labelText: 'Email Address',
+                              floatingLabelBehavior:
+                                  FloatingLabelBehavior.always,
+                              labelStyle: TextStyle(color: Colors.black),
                               fillColor: Colors.white,
                               focusColor: Colors.black),
                           onSaved: (String? value) {},
@@ -112,7 +140,9 @@ class _LoginState extends State<LoginScreen> {
                             border: OutlineInputBorder(
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(4))),
-                            hintText: 'Password',
+                            labelText: 'Password',
+                            floatingLabelBehavior: FloatingLabelBehavior.always,
+                            labelStyle: TextStyle(color: Colors.black),
                           ),
                           autovalidateMode: AutovalidateMode.onUserInteraction,
                           validator: (String? value) {
@@ -132,7 +162,8 @@ class _LoginState extends State<LoginScreen> {
                               children: <Widget>[
                                 MaterialButton(
                                   onPressed: () {
-                                    validateForm();
+                                    FocusScope.of(context).unfocus();
+                                    validateForm(context);
                                   },
                                   minWidth: double.infinity,
                                   height: 50,
@@ -151,8 +182,8 @@ class _LoginState extends State<LoginScreen> {
                                     const Text('Did you forget your password?'),
                                     TextButton(
                                       onPressed: () {
-                                        Navigator.of(context)
-                                            .pushReplacementNamed('/reset');
+                                        Navigator.of(context).pushNamed(
+                                            PasswordResetScreen.routeName);
                                       },
                                       child: const Text('Reset',
                                           style: TextStyle(color: Colors.red)),

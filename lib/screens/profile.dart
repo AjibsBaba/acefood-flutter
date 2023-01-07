@@ -4,6 +4,7 @@ import 'package:acefood/screens/home.dart';
 import 'package:acefood/screens/model_info.dart';
 import 'package:acefood/widgets/copyright.dart';
 import 'package:acefood/widgets/profile_section.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class ProfileHomeScreen extends StatelessWidget {
@@ -46,15 +47,15 @@ class ProfileHomeScreen extends StatelessWidget {
                     ),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: const [
+                      children: [
                         Text(
-                          'Samuel Ajibade',
-                          style: TextStyle(
+                          '${FirebaseAuth.instance.currentUser?.displayName}',
+                          style: const TextStyle(
                               fontSize: 20, fontWeight: FontWeight.w900),
                         ),
                         Text(
-                          'hello@ajibsbaba.com',
-                          style: TextStyle(
+                          '${FirebaseAuth.instance.currentUser?.email}',
+                          style: const TextStyle(
                               fontSize: 12, fontWeight: FontWeight.normal),
                         )
                       ],
@@ -70,15 +71,15 @@ class ProfileHomeScreen extends StatelessWidget {
                   const SizedBox(
                     height: 14,
                   ),
-                  ProfileSection('Account Info', 'Your Personal Information',
-                      AccountInfo.routeName),
-                  ProfileSection('Model Info', 'Model Info, Accuracy, Type',
-                      ModelInfo.routeName),
-                  ProfileSection('App Info',
+                  const ProfileSection('Account Info',
+                      'Your Personal Information', AccountInfo.routeName),
+                  const ProfileSection('Model Info',
+                      'Model Info, Accuracy, Type', ModelInfo.routeName),
+                  const ProfileSection('App Info',
                       'Developer Information & App Build', AppInfo.routeName),
-                  ProfileSection(
+                  const ProfileSection(
                       'Suggestions', 'Suggest Features, Improve app', ''),
-                  ProfileSection(
+                  const ProfileSection(
                       'Delete Account', 'Delete Account Information', ''),
                 ],
               )),
@@ -89,10 +90,7 @@ class ProfileHomeScreen extends StatelessWidget {
         onDestinationSelected: (int index) {
           if (index == 0) {
             Navigator.of(context).pushReplacementNamed(HomeScreen.routeName);
-          } else {
-            Navigator.of(context)
-                .pushReplacementNamed(ProfileHomeScreen.routeName);
-          }
+          } else {}
         },
         selectedIndex: 1,
         backgroundColor: Colors.red[50],

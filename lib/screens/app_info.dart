@@ -7,6 +7,7 @@ class AppInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
         title: const Text(
@@ -16,7 +17,6 @@ class AppInfo extends StatelessWidget {
         centerTitle: false,
       ),
       body: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           const Text(
             'Acefood',

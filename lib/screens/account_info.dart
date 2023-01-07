@@ -1,7 +1,7 @@
 import 'package:acefood/widgets/copyright.dart';
+import 'package:acefood/widgets/section_content.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
-import '../widgets/section_content.dart';
 
 class AccountInfo extends StatelessWidget {
   const AccountInfo({Key? key}) : super(key: key);
@@ -33,11 +33,15 @@ class AccountInfo extends StatelessWidget {
               ),
               Column(
                 children: [
-                  SectionContent('Name', 'Samuel Ajibade'),
-                  SectionContent('Email Address', 'samuelajibade22@gmail.com'),
-                  SectionContent('Verification Status', 'Verified'),
-                  SectionContent('Farm Name', 'Ajebo Farms'),
-                  SectionContent('Phone Number', '+2348071181007')
+                  SectionContent('Name',
+                      '${FirebaseAuth.instance.currentUser?.displayName}'),
+                  SectionContent('Email Address',
+                      '${FirebaseAuth.instance.currentUser?.email}'),
+                  SectionContent('Verification Status',
+                      '${FirebaseAuth.instance.currentUser?.emailVerified}'),
+                  SectionContent('Farm Name', 'null'),
+                  SectionContent('Phone Number',
+                      '${FirebaseAuth.instance.currentUser?.phoneNumber}')
                 ],
               ),
               Copyright()

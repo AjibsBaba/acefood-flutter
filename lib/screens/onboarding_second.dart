@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
 
+import 'authentication/login.dart';
+import 'authentication/register.dart';
+
 class OnboardingScreen2 extends StatelessWidget {
   const OnboardingScreen2({super.key});
+
+  static const routeName = '/onboarding-two';
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        title: const Text(''),
-      ),
+      appBar: AppBar(),
       body: Padding(
         padding: const EdgeInsets.only(left: 20, right: 20, top: 32),
         child: Column(
@@ -25,7 +28,7 @@ class OnboardingScreen2 extends StatelessWidget {
                     const Text(
                       'Scan & Detect',
                       style:
-                      TextStyle(fontSize: 32, fontWeight: FontWeight.w900),
+                          TextStyle(fontSize: 32, fontWeight: FontWeight.w900),
                     ),
                     const Padding(
                       padding: EdgeInsets.only(left: 32, right: 32),
@@ -43,7 +46,8 @@ class OnboardingScreen2 extends StatelessWidget {
                     ),
                     MaterialButton(
                       onPressed: () {
-                        Navigator.of(context).pushReplacementNamed('/register');
+                        Navigator.of(context)
+                            .pushNamed(RegistrationScreen.routeName);
                       },
                       minWidth: 300,
                       height: 50,
@@ -64,7 +68,7 @@ class OnboardingScreen2 extends StatelessWidget {
                         TextButton(
                             onPressed: () {
                               Navigator.of(context)
-                                  .pushReplacementNamed('/login');
+                                  .pushNamed(LoginScreen.routeName);
                             },
                             child: const Text(
                               'Login',

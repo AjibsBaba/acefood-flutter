@@ -5,7 +5,8 @@ class ProfileSection extends StatelessWidget {
   final String description;
   final String routeUrl;
 
-  ProfileSection(this.header, this.description, this.routeUrl);
+  const ProfileSection(this.header, this.description, this.routeUrl,
+      {super.key});
 
   @override
   Widget build(BuildContext context) {

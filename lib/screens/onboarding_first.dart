@@ -1,15 +1,16 @@
+import 'package:acefood/screens/onboarding_second.dart';
 import 'package:flutter/material.dart';
 
 class OnboardingScreen extends StatelessWidget {
   const OnboardingScreen({super.key});
 
+  static const routeName = '/onboarding-one';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        title: const Text(''),
-      ),
+      appBar: AppBar(),
       body: Padding(
         padding: const EdgeInsets.only(left: 20, right: 20, top: 32),
         child: Column(
@@ -25,7 +26,7 @@ class OnboardingScreen extends StatelessWidget {
                     const Text(
                       'Our Mission',
                       style:
-                      TextStyle(fontSize: 32, fontWeight: FontWeight.w900),
+                          TextStyle(fontSize: 32, fontWeight: FontWeight.w900),
                     ),
                     const Padding(
                       padding: EdgeInsets.only(left: 32, right: 32),
@@ -43,7 +44,8 @@ class OnboardingScreen extends StatelessWidget {
                     ),
                     MaterialButton(
                       onPressed: () {
-                        Navigator.of(context).pushReplacementNamed('/main');
+                        Navigator.of(context)
+                            .pushReplacementNamed(OnboardingScreen2.routeName);
                       },
                       minWidth: 300,
                       height: 50,

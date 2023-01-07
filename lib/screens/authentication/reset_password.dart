@@ -1,8 +1,11 @@
+import 'package:acefood/screens/authentication/register.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class PasswordResetScreen extends StatefulWidget {
   const PasswordResetScreen({super.key});
+
+  static const routeName = '/password-reset';
 
   @override
   _PasswordResetState createState() => _PasswordResetState();
@@ -38,13 +41,6 @@ class _PasswordResetState extends State<PasswordResetScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(
-            Icons.arrow_back,
-            color: Colors.black,
-          ),
-          onPressed: () {},
-        ),
         title: Image.asset('assets/images/AcefoodLogo.png'),
         centerTitle: true,
       ),
@@ -81,7 +77,9 @@ class _PasswordResetState extends State<PasswordResetScreen> {
                             border: OutlineInputBorder(
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(4))),
-                            hintText: 'Email Address',
+                            labelText: 'Email Address',
+                            floatingLabelBehavior: FloatingLabelBehavior.always,
+                            labelStyle: TextStyle(color: Colors.black),
                             focusColor: Colors.black),
                         onSaved: (String? value) {},
                         autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -122,8 +120,8 @@ class _PasswordResetState extends State<PasswordResetScreen> {
                               const Text('Don’t have an account?'),
                               TextButton(
                                   onPressed: () {
-                                    Navigator.of(context)
-                                        .pushReplacementNamed('/register');
+                                    Navigator.of(context).pushReplacementNamed(
+                                        RegistrationScreen.routeName);
                                   },
                                   child: const Text(
                                     'Register',

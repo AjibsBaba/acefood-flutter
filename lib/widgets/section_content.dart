@@ -4,7 +4,7 @@ class SectionContent extends StatelessWidget {
   final String heading;
   final String content;
 
-  SectionContent(
+  const SectionContent(
     this.heading,
     this.content, {
     super.key,
